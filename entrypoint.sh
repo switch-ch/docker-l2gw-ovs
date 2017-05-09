@@ -2,6 +2,14 @@
 
 mkdir /var/run/openvswitch
 
+if [ ! -f /etc/openvswitch/vtep.db ]; then
+    ovsdb-tool create /etc/openvswitch/vtep.db /usr/share/openvswitch/vtep.ovsschema
+fi
+
+if [ ! -f /etc/openvswitch/vswitch.db ]; then
+ovsdb-tool create /etc/openvswitch/vswitch.db /usr/share/openvswitch/vswitch.ovsschema
+fi
+
 ovsdb-server --pidfile --detach --log-file \
              --remote ptcp:6632:${MGMTIPV4} \
              --remote punix:/var/run/openvswitch/db.sock \
